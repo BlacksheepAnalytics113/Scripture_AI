@@ -7,3 +7,6 @@ In churches worldwide, the media team manually searches for and displays Bible s
 - Error-prone 
 - Stressful 
 - Distracting 
+
+# The Solution
+ScriptureAI listens to the pastor’s voice in real time, uses AI to detect when a scripture is being quoted or referenced, and automatically pushes the correct scripture text to the display screen — in approximately 2-4 seconds.
