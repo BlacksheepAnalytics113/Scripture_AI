@@ -14,3 +14,14 @@ ScriptureAI listens to the pastor’s voice in real time, uses AI to detect when
 
 # The Architrecture 
 ![alt text](image.png)
+
+# Tech Stack
+| Component          | Technology              |
+|------------------|-------------------------- |
+| Audio Capture     | PyAudio                  |
+| Speech to Text    | OpenAI Whisper           |
+| AI Detection      | Anthropic Claude API     |
+| Display Server    | FastAPI + WebSockets     |
+| Bible Database    | SQLite (local)           |
+| Configuration     | Python dotenv            |
+
