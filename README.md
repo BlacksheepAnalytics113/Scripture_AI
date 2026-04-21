@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> d20c304b0186cb2885c7b12c2ccaf928a566ee22
 # ScriptureAI  Real-Time Pastor Speech to Scripture Display
 An open-source AI tool that listens to a pastor’s sermon in real time, automatically detects Bible scripture references, and displays them on screen  eliminating the need for manual media team intervention
 
@@ -13,6 +16,7 @@ In churches worldwide, the media team manually searches for and displays Bible s
 ScriptureAI listens to the pastor’s voice in real time, uses AI to detect when a scripture is being quoted or referenced, and automatically pushes the correct scripture text to the display screen  in approximately 2-4 seconds.
 
 # The Architrecture 
+<<<<<<< HEAD
 
 Pastor speaks into microphone
         ↓
@@ -27,3 +31,18 @@ Scripture text retrieved from Bible database
 WebSocket pushes to display screen
         ↓
 Scripture displayed on congregation screen
+=======
+                Pastor speaks into microphone
+                        ↓
+                Audio captured in real-time chunks (PyAudio)
+                        ↓
+                Speech converted to text (OpenAI Whisper)
+                        ↓
+                AI detects scripture references (Claude API)
+                        ↓
+                Scripture text retrieved from Bible database
+                        ↓
+                WebSocket pushes to display screen
+                        ↓
+                Scripture displayed on congregation screen
+>>>>>>> d20c304b0186cb2885c7b12c2ccaf928a566ee22
