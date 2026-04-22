@@ -42,5 +42,29 @@ def setup_database(db_path:str):
     """)
  
     db_con.commit()
+
+    # check if the data has been populated
+    cursor_connect.execute("SELECT COUNT(*) FROM verses_db WHERE translation = 'KJV'")
+    count = cursor_connect.fetchone()[0]
+
+    if count > 0:
+        print(f"Bible database already has a {count:} KJV verses")
+        db_con.close()
+        return
+    # Download  KJV Data
+    try:
+        with urllib.request.urlopen(KJV_URL) as response:
+            data = json.loads(response.read().decode())
+        print(f"Download complete, Populating database!!!")
+
+    # Insert verse
+    count_verses = 0
+    for d in data:
+        book_name = data["name"]
+        
+
+
+
+
     
 
