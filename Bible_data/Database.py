@@ -48,7 +48,8 @@ class BibleDatabase:
             
             # Import and run setup from Bible_db
             try:
-                from utils.Bible_db import setup_database
+                from Utils.Bible_db import setup_database
+                # from utils.Bible_db import setup_database
                 setup_database(self.db_path)
                 logger.info("Database initialized successfully")
             except ImportError as e:
