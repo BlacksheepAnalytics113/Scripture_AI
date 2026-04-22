@@ -14,4 +14,33 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Public domain KJV Bible JSON
+# KJV Bible: format;JSON
+# Source: https://github.com/aruljohn/Bible-kjv 
+
+KJV_URL = "https://github.com/aruljohn/Bible-kjv/blob/master/Books.json"
+
+
+def setup_database(db_path:str):
+    os.path.join(os.path.dirname(db_path),exist_ok=True)
+    db_con = sqlite3.Cursor(db_path)
+    cursor_connect = db_con.cursor()
+
+    cursor_connect.execute("""
+        CREATE TABLE IF NOT EXISTS Verses_db (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            book        TEXT NOT NULL,
+            chapter     INTEGER NOT NULL,
+            verse       INTEGER NOT NULL,
+            text        TEXT NOT NULL,
+            translation TEXT NOT NULL DEFAULT 'KJV'
+        )                  
+                           """)
+    
+    cursor_connect.execute("""
+        CREATE INDEX IF NOT EXISTS idx_verse_lookup
+        ON verses(book, chapter, verse, translation)
+    """)
+ 
+    db_con.commit()
+    
+
