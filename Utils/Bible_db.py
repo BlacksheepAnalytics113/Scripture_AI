@@ -82,7 +82,7 @@ def setup_database(db_path: str):
         print(f"Bible database already has {count:,} KJV verses")
         db_con.close()
         return
-    print("⬇Downloading KJV Bible data...")
+    print("Downloading KJV Bible data...")
 
     try:
         # Get list of book names
@@ -102,13 +102,30 @@ def setup_database(db_path: str):
 
                 chapters = book_data.get("chapters", [])
 
-                for chapter_idx, chapter_verses in enumerate(chapters, 1):
-                    for verse_idx, verse_text in enumerate(chapter_verses, 1):
-                        cursor_connect.execute("""
-                            INSERT INTO Verses_db (book, chapter, verse, text, translation)
-                            VALUES (?, ?, ?, ?, 'KJV')
-                        """, (book_name, chapter_idx, verse_idx, verse_text))
-                        verse_count += 1
+                for chapter_idx, chapter_data in enumerate(chapters, 1):
+                    if isinstance(chapter_data, dict):
+                        chapter_number = int(chapter_data.get("chapter", chapter_idx))
+                        verse_list = chapter_data.get("verses", [])
+                    else:
+                        chapter_number = chapter_idx
+                        verse_list = chapter_data
+
+                    if isinstance(verse_list, list) and verse_list and isinstance(verse_list[0], dict):
+                        for verse_item in verse_list:
+                            verse_idx = int(verse_item.get("verse", 0))
+                            verse_text = verse_item.get("text", "").strip()
+                            cursor_connect.execute("""
+                                INSERT INTO Verses_db (book, chapter, verse, text, translation)
+                                VALUES (?, ?, ?, ?, 'KJV')
+                            """, (book_name, chapter_number, verse_idx, verse_text))
+                            verse_count += 1
+                    else:
+                        for verse_idx, verse_text in enumerate(verse_list, 1):
+                            cursor_connect.execute("""
+                                INSERT INTO Verses_db (book, chapter, verse, text, translation)
+                                VALUES (?, ?, ?, ?, 'KJV')
+                            """, (book_name, chapter_number, verse_idx, verse_text))
+                            verse_count += 1
 
                 db_con.commit()
                 print(f"{book_name} ({verse_count:,} verses so far...)")

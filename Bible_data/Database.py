@@ -19,16 +19,19 @@ class BibleDatabase:
         Args:
             db_path: Path to the SQLite database file
         """
-        self.db_path = db_path
-        
-        # Ensure database directory exists
-        dir_name = os.path.dirname(db_path)
+        if not os.path.isabs(db_path):
+            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            self.db_path = os.path.normpath(os.path.join(project_root, db_path))
+        else:
+            self.db_path = db_path
+
+        dir_name = os.path.dirname(self.db_path)
         if dir_name:
             os.makedirs(dir_name, exist_ok=True)
-        
+
         # Initialize database if it doesn't exist or has no data
         self._init_database_if_needed()
-        
+
         self.db_con = sqlite3.connect(self.db_path)
         logger.info(f"Connected to Bible database: {self.db_path}")
 
@@ -54,7 +57,6 @@ class BibleDatabase:
                 logger.info("Database initialized successfully")
             except ImportError as e:
                 logger.error(f"Could not import setup_database: {e}")
-                # Try alternative import path
                 try:
                     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
                     from Utils.Bible_db import setup_database
@@ -155,7 +157,7 @@ class BibleDatabase:
         self,
         search_text: str,
         translation: str = "KJV",
-        limit: int = 20
+        limit: int = 200
     ):
         """
         Search for verses containing specific text (case-insensitive).
@@ -163,7 +165,7 @@ class BibleDatabase:
         Args:
             search_text: Text to search for
             translation: Bible translation (default: "KJV")
-            limit: Maximum number of results (default: 20)
+            limit: Maximum number of results (default: 200)
 
         Returns:
             List of verse tuples
@@ -239,7 +241,9 @@ class BibleDatabase:
 
 # Example usage (for testing)
 if __name__ == "__main__":
-    db = BibleDatabase("../bible.db")
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    db_path = os.path.join(project_root, "bible.db")
+    db = BibleDatabase(db_path)
 
     # Test getting a single verse
     verse = db.get_verse("John", 3, 16)
@@ -253,7 +257,8 @@ if __name__ == "__main__":
 
     # Test search
     results = db.search_verses("love")
-    print(f"\nFound {len(results)} verses with love:")
+    print(results)
+    print(f"\nFound {len(results)} verses with 'love':")
 
     # Test verse count
     print(f"\nTotal verses: {db.get_verse_count()}")
