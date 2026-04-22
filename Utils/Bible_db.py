@@ -82,7 +82,7 @@ def setup_database(db_path: str):
         print(f"Bible database already has {count:,} KJV verses")
         db_con.close()
         return
-    print("⬇️  Downloading KJV Bible data...")
+    print("⬇Downloading KJV Bible data...")
 
     try:
         # Get list of book names
@@ -90,7 +90,7 @@ def setup_database(db_path: str):
             book_names = json.loads(response.read().decode())
 
         print(f"Found {len(book_names)} books")
-
+    
         verse_count = 0
         failed_books = []
         for book_name in book_names:
@@ -111,7 +111,7 @@ def setup_database(db_path: str):
                         verse_count += 1
 
                 db_con.commit()
-                print(f"   ✓ {book_name} ({verse_count:,} verses so far...)")
+                print(f"{book_name} ({verse_count:,} verses so far...)")
 
             except Exception as e:
                 print(f"Failed: {book_name} — {e}")
@@ -122,20 +122,6 @@ def setup_database(db_path: str):
 
         if failed_books:
             print(f"{len(failed_books)} books failed: {failed_books}")
-
-        # Check total count
-        cursor_connect.execute("SELECT COUNT(*) FROM Verses_db")
-        print(f"Total verses: {cursor_connect.fetchone()[0]:,}")
-
-        # # Test John 3:16
-        # cursor_connect.execute("""
-        #     SELECT text FROM Verses_db
-        #     WHERE book = 'John' AND chapter = 3 AND verse = 16
-        # """)
-        # test = cursor_connect.fetchone()
-        # if test:
-        #     print(f"\nTest — John 3:16: \"{test[0]}\"")
-
     except Exception as e:
         print(f"Error: {e}")
     finally:
