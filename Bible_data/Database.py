@@ -257,7 +257,7 @@ if __name__ == "__main__":
 
     # Test search
     results = db.search_verses("love")
-    print(results)
+    # print(results)
     print(f"\nFound {len(results)} verses with 'love':")
 
     # Test verse count
