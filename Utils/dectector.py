@@ -10,6 +10,7 @@ Takes transcribed sermon text and uses Claude to:
 import json
 import logging
 import anthropic
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -24,8 +25,8 @@ class ScriptureDetector:
     """
 
     def __init__(self, api_key: str):
-        self.client = anthropic.Anthropic(api_key=api_key)
-        self.model = "claude-4-6-sonnet-20261025"
+        self.client = anthropic.AsyncAnthropic(api_key=api_key)
+        self.model = "claude-sonnet-4-6"
         self._recent_detections = []
         self._max_recent = 5
 
