@@ -14,11 +14,6 @@ class BibleDatabase:
     """
 
     def __init__(self, db_path: str = "bible.db"):
-        """
-        Initialize the Bible database connection
-        Args:
-            db_path: Path to the SQLite database file
-        """
         if not os.path.isabs(db_path):
             project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             self.db_path = os.path.normpath(os.path.join(project_root, db_path))
@@ -66,18 +61,6 @@ class BibleDatabase:
                     logger.error(f"Failed to initialize database: {e2}")
 
     def get_verse(self, book: str, chapter: int, verse: int, translation: str = "KJV"):
-        """
-        Retrieve a single verse from the database.
-
-        Args:
-            book: Bible book name (e.g., "John", "Genesis")
-            chapter: Chapter number
-            verse: Verse number
-            translation: Bible translation (default: "KJV")
-
-        Returns:
-            Tuple (book, chapter, verse, text, translation), or None if not found
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute("""
@@ -93,17 +76,6 @@ class BibleDatabase:
             return None
 
     def get_chapter(self, book: str, chapter: int, translation: str = "KJV"):
-        """
-        Retrieve all verses from a chapter.
-
-        Args:
-            book: Bible book name
-            chapter: Chapter number
-            translation: Bible translation (default: "KJV")
-
-        Returns:
-            List of verse tuples
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute("""
@@ -126,19 +98,6 @@ class BibleDatabase:
         end_verse: int,
         translation: str = "KJV"
     ):
-        """
-        Retrieve a range of verses from a chapter.
-
-        Args:
-            book: Bible book name
-            chapter: Chapter number
-            start_verse: Starting verse number
-            end_verse: Ending verse number (inclusive)
-            translation: Bible translation (default: "KJV")
-
-        Returns:
-            List of verse tuples
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute("""
@@ -159,17 +118,6 @@ class BibleDatabase:
         translation: str = "KJV",
         limit: int = 200
     ):
-        """
-        Search for verses containing specific text (case-insensitive).
-
-        Args:
-            search_text: Text to search for
-            translation: Bible translation (default: "KJV")
-            limit: Maximum number of results (default: 200)
-
-        Returns:
-            List of verse tuples
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute("""
@@ -185,15 +133,6 @@ class BibleDatabase:
             return []
 
     def get_verse_count(self, translation: str = "KJV") -> int:
-        """
-        Get total number of verses in the database for a translation.
-
-        Args:
-            translation: Bible translation (default: "KJV")
-
-        Returns:
-            Total number of verses
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute(
@@ -207,12 +146,6 @@ class BibleDatabase:
             return 0
 
     def get_available_translations(self) -> list:
-        """
-        Get list of available Bible translations in the database.
-
-        Returns:
-            List of translation names
-        """
         try:
             cursor_connect = self.db_con.cursor()
             cursor_connect.execute(
@@ -260,10 +193,7 @@ if __name__ == "__main__":
     # print(results)
     print(f"\nFound {len(results)} verses with 'love':")
 
-    # Test verse count
     print(f"\nTotal verses: {db.get_verse_count()}")
-
-    # Test available translations
     print(f"Available translations: {db.get_available_translations()}")
 
     db.close()

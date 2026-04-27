@@ -16,27 +16,12 @@ class TranscriptSaver:
         self.detected_scriptures = set()  
 
     def add_segment(self, start_time: float, end_time: float, text: str):
-        """
-        Add a transcribed segment with timestamps.
-
-        Args:
-            start_time: Start time in seconds
-            end_time: End time in seconds
-            text: Transcribed text
-        """
         timestamp = self._format_timestamp(start_time)
         line = f"[{timestamp}] {text.strip()}\n"
         self.transcript_lines.append(line)
         logger.info(f"Added transcript segment: {line.strip()}")
 
     def highlight_scripture(self, scripture_ref: str):
-        """
-        Highlight a detected scripture reference in the transcript.
-        This will mark the reference in bold when saving.
-
-        Args:
-            scripture_ref: The scripture reference, e.g., "Genesis 1:1"
-        """
         if scripture_ref not in self.detected_scriptures:
             self.detected_scriptures.add(scripture_ref)
             # Find and highlight in existing lines
@@ -46,9 +31,6 @@ class TranscriptSaver:
             logger.info(f"Highlighted scripture: {scripture_ref}")
 
     def save_transcript(self):
-        """
-        Save the full transcript to the output file.
-        """
         try:
             with open(self.output_file, 'w', encoding='utf-8') as f:
                 f.writelines(self.transcript_lines)

@@ -1,6 +1,4 @@
 """
-utils/detector.py — AI Scripture Detection using Claude
-
 Takes transcribed sermon text and uses Claude to:
 1. Detect if a Bible scripture is being referenced
 2. Extract the book, chapter, and verse
@@ -16,13 +14,6 @@ logger = logging.getLogger(__name__)
 
 
 class ScriptureDetector:
-    """
-    Uses Claude AI to detect Bible scripture references
-    in transcribed sermon text.
-
-    Handles:
-    - Abbreviated books: "Gen 1:1", "Rev 22:21"
-    """
 
     def __init__(self, api_key: str):
         self.client = anthropic.AsyncAnthropic(api_key=api_key)
@@ -31,26 +22,6 @@ class ScriptureDetector:
         self._max_recent = 5
 
     async def detect(self, text: str) -> dict | None:
-        """
-        Detect scripture references in text.
-
-        Args:
-            text: Transcribed sermon text
-
-        Returns:
-            Dict with scripture details if detected, None otherwise
-
-        Example return:
-        {
-            "detected": True,
-            "book": "John",
-            "chapter": 3,
-            "verse": 16,
-            "confidence": 0.95,
-            "original_reference": "John 3:16",
-            "text": ""  # Filled in by Bible database lookup
-        }
-        """
         if not text or len(text.strip()) < 5:
             return None
 
@@ -84,15 +55,9 @@ class ScriptureDetector:
             return None
 
     def _build_prompt(self, text: str) -> str:
-        """Build the detection prompt for Claude"""
         return f"""You are analysing transcribed sermon speech to detect Bible scripture references.
 Transcribed text:
 "{text}"
-
-Your task:
-1. Determine if the speaker is referencing, quoting, or mentioning a specific Bible scripture
-2. If yes, identify the exact book, chapter, and verse
-3. Return ONLY a JSON object — no other text
 
 Return this exact JSON format:
 
@@ -110,13 +75,7 @@ If scripture is NOT detected:
 {{
   "detected": false
 }}
-
-Rules:
-- Only return detected=true when you are reasonably confident (above 0.7)
-- Use the full book name (e.g. "Genesis" not "Gen")
-- If multiple scriptures are mentioned, return the FIRST one only
-- If only a chapter is mentioned without a verse, use verse 1
-- Return ONLY the JSON object, nothing else"""
+"""
 
     def _parse_response(self, response_text: str) -> dict | None:
         """Parse Claude's JSON response"""

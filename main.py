@@ -1,9 +1,7 @@
 """
-main_demo_no_api.py — ScriptureAI Demo Without Anthropic API
-
+main.py — ScriptureAI Demo Without Anthropic API
 This version tests the display server and Bible lookup WITHOUT requiring
 Anthropic API credits. Uses hardcoded scripture references instead.
-
 Perfect for testing the UI before setting up API credits.
 """
 
@@ -70,8 +68,6 @@ class ScriptureAIDemo:
                 
                 if result:
                     _, chap, v, text, trans = result
-                    
-                    # Create detection object
                     detection = {
                         "detected": True,
                         "book": book,
@@ -92,8 +88,6 @@ class ScriptureAIDemo:
             
             except Exception as e:
                 logger.error(f"Error processing {book} {chapter}:{verse}: {e}")
-            
-            # Wait before next verse
             logger.info("Waiting 3 seconds before next verse...")
             await asyncio.sleep(3)
         
@@ -106,29 +100,18 @@ async def main():
     """Main entry point"""
     try:
         app = ScriptureAIDemo()
-        
-        # Start display server
         app.start_display_server()
-        
-        # Wait for server to start
-        await asyncio.sleep(1)
-        
-        # Run demo
+        await asyncio.sleep(1)        
         await app.run_demo()
         
         logger.info(f"\nDisplay available at: http://localhost:{config.DISPLAY_PORT}/display")
         logger.info("Keep this running and open the display URL in a browser")
         logger.info("Open on multiple devices to test multi-screen broadcasting\n")
-        
-        # Keep running
         while True:
-            await asyncio.sleep(1)
-        
+            await asyncio.sleep(1)        
     except KeyboardInterrupt:
         logger.info("\n Interrupted by user")
     except Exception as e:
         logger.error(f"Error: {e}", exc_info=True)
-
-
 if __name__ == "__main__":
     asyncio.run(main())

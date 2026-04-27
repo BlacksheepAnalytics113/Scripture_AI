@@ -1,10 +1,3 @@
-"""
-display/server.py — FastAPI WebSocket Display Server
-
-Serves the projector screen page and broadcasts
-detected scriptures to all connected screens in real time.
-"""
-
 import asyncio
 import json
 import logging
@@ -50,7 +43,7 @@ class DisplayServer:
             await websocket.accept()
             self.connected_screens.add(websocket)
             logger.info(
-                f"📺 Display screen connected "
+                f"Display screen connected "
                 f"({len(self.connected_screens)} total)"
             )
 
