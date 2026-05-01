@@ -72,5 +72,5 @@ Put this on the projector screen. It will automatically update as scriptures are
 ## Testing Without a Microphone
 You can test the scripture detection without audio:
 ```bash
-python tests/test_detector.py
+python Utils/detector.py
 ```
