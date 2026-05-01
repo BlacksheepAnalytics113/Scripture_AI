@@ -40,7 +40,7 @@ git clone https://github.com/BlacksheepAnalytics113/Scripture_AI.git
 ## Create virtual environment
 ```bash
 python -m venv venv
-source venv/bin/activate # On Windows: venv\Scripts\activate
+source venv/bin/activate 
 ```
 
 ##  Install dependencies
@@ -50,7 +50,7 @@ pip install -r requirements.txt
 
 ## Set up environment variables
 ```bash
-cp .env.example .env    # Edit .env and add your Anthropic API key
+cp .env.example .env 
 ```
 
 ## Set up the Bible database
