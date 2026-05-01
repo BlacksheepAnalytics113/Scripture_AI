@@ -25,3 +25,14 @@ ScriptureAI listens to the pastor’s voice in real time, uses AI to detect when
 | Bible Database    | SQLite (local)           |
 | Configuration     | Python dotenv            |
 
+
+# Installation
+## Prerequites
+- Python 3.12.5
+- A microphone connected to your computer
+- Anthropic API key (get one at console.anthropic.com)
+
+## Step 1:Clone the repository
+```bash
+git clone https://github.com/BlacksheepAnalytics113/Scripture_AI.git
+```
