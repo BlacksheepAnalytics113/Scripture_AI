@@ -32,7 +32,45 @@ ScriptureAI listens to the pastor’s voice in real time, uses AI to detect when
 - A microphone connected to your computer
 - Anthropic API key (get one at console.anthropic.com)
 
-## Step 1:Clone the repository
+## Clone the repository
 ```bash
 git clone https://github.com/BlacksheepAnalytics113/Scripture_AI.git
+```
+
+## Create virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate # On Windows: venv\Scripts\activate
+```
+
+##  Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+## Set up environment variables
+```bash
+cp .env.example .env    # Edit .env and add your Anthropic API key
+```
+
+## Set up the Bible database
+```bash
+python Utils/Bible_db.py
+```
+
+## Run the application
+```bash
+python main.py
+```
+
+##  Open the display screen
+```bash
+Open your browser and go to: http://localhost:8000/display
+Put this on the projector screen. It will automatically update as scriptures are detected.
+```
+
+## Testing Without a Microphone
+You can test the scripture detection without audio:
+```bash
+python tests/test_detector.py
 ```
